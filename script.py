@@ -1,5 +1,7 @@
 import os
 import csv
+import json
+import pandas as pd 
 
 #Name[0];Stars[1];Forks[2];Language[3];Description[4];URL[5];Domain[6];Growth Pattern[7]
 #Abre o CSV e trata os dados, retirando os repositorios de javascript e adicionando os mesmos a uma lista
@@ -31,8 +33,23 @@ os.chdir("repositories")
 
 for pizza in range(inicio, fim):
     os.chdir(repositorios[pizza][0])
-    # os.system("license-checker --csv --out licenses.csv")
-    # os.system("license-checker")
-    # os.system("license-checker --json --customPath ../../customFormatExample.json > ../../summary-licenses/license"+str(pizza)+".json")
     os.system("license-checker --json > ../../summary-licenses/license"+str(pizza)+".json")
     os.chdir("../")
+
+os.chdir("../summary-licenses")
+#Cria um dicionario para salvar o conteudo dos jsons
+json_final = {}
+#Loop para varer os json e salva no dicionario
+for pizza in range(inicio, fim):
+    with open('license'+str(pizza)+'.json') as f:
+        data = json.load(f)
+    #concatena os json no dicionario criado
+    json_final.update(data)
+
+#Salva o dicionario no JSON
+with open('resume_repository.json', 'w') as json_file:
+    json.dump(json_final, json_file,indent = 4, sort_keys=True)
+#Abre o json resumo
+data = pd.read_json('resume_repository.json')
+#converte o json para o formato de csv
+data.to_csv('resume_repository.csv')
