@@ -5,7 +5,7 @@ import pandas as pd
 
 #Name[0];Stars[1];Forks[2];Language[3];Description[4];URL[5];Domain[6];Growth Pattern[7]
 #Abre o CSV e trata os dados, retirando os repositorios de javascript e adicionando os mesmos a uma lista
-with open('./study-on-packages-license-npm/Domains of 5,000 GitHub Repositories - Public - Domains.csv') as csvfile:
+with open('Domains_of_5,000_GitHub_Repositories_-_Public_-_Domains.csv') as csvfile:
     readCSV = csv.reader(csvfile, delimiter=',')
     #salva todos os links do csv
     repositorios = [] 
@@ -17,12 +17,12 @@ with open('./study-on-packages-license-npm/Domains of 5,000 GitHub Repositories 
             projeto.append(row[5])
             repositorios.append(projeto)
 
-inicio = 0
-fim = 10
+inicio = 1550
+fim = 1552
 
 os.chdir("scancode-toolkit/")
 
 for pizza in range(inicio, fim):
     print(str(pizza)+' - '+repositorios[pizza][0])
-    os.system('./scancode -l --csv /home/jarvis/TCC-JP/license-summary/license'+str(pizza)+'.csv /home/jarvis/TCC-JP/study-on-packages-license-npm/repositories/'+repositorios[pizza][0])
+    os.system('./scancode -l --csv ../license-summary/license'+str(pizza)+'.csv ../repositories/'+repositorios[pizza][0])
     print('=============================================')
