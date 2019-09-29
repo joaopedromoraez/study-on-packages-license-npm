@@ -24,5 +24,5 @@ os.chdir("scancode-toolkit/")
 
 for pizza in range(inicio, fim):
     print(str(pizza)+' - '+repositorios[pizza][0])
-    os.system('./scancode -l --csv ../license-summary/license'+str(pizza)+'.csv ../repositories/'+repositorios[pizza][0])
+    os.system('./scancode -l --csv ../summary-licenses/license'+str(pizza)+'.csv ../repositories/'+repositorios[pizza][0])
     print('=============================================')
