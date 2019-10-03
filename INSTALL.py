@@ -3,7 +3,7 @@ import os
 #Cria o repositorio onde serão clonados os repositorios da lista
 os.system("mkdir repositories")
 #Cria diretorio que salva o resumo de licencas de cada repositorio
-os.system("mkdir summary-licenses")
+os.system("mkdir summary-licenses-csv summary-licenses-json summary-licenses-filter")
 
 os.system("wget -O Domains_of_5,000_GitHub_Repositories_-_Public_-_Domains.csv https://zenodo.org/record/804474/files/Domains%20of%205%2C000%20GitHub%20Repositories%20-%20Public%20-%20Domains.csv?download=1")
 

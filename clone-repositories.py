@@ -17,8 +17,8 @@ with open('Domains_of_5,000_GitHub_Repositories_-_Public_-_Domains.csv') as csvf
             projeto.append(row[5])
             repositorios.append(projeto)
 
-inicio = 1550
-fim = 1552
+inicio = 0
+fim = len(repositorios)
 
 #Usa a lista com os repositorios para rodar o git clone
 for pizza in range(inicio, fim):

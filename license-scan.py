@@ -17,12 +17,13 @@ with open('Domains_of_5,000_GitHub_Repositories_-_Public_-_Domains.csv') as csvf
             projeto.append(row[5])
             repositorios.append(projeto)
 
-inicio = 1550
-fim = 1552
+inicio = 10
+fim = 20
 
 os.chdir("scancode-toolkit/")
 
 for pizza in range(inicio, fim):
     print(str(pizza)+' - '+repositorios[pizza][0])
-    os.system('./scancode -l --csv ../summary-licenses/license'+str(pizza)+'.csv ../repositories/'+repositorios[pizza][0])
+    # os.system('./scancode -l --csv ../summary-licenses-csv/license'+str(pizza)+'.csv ../repositories/'+repositorios[pizza][0])
+    os.system('./scancode --format json ../repositories/'+repositorios[pizza][0]+' ../summary-licenses-json/license'+str(pizza)+'.json')
     print('=============================================')
