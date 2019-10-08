@@ -21,7 +21,12 @@ def licencaDuplicada(file):
             if (readCSV != []) and (len(readCSV[0]) > 3):
                 # Vare a lista e buscar as licenças listadas na coluna 'license_expression'e que estejam na raiz do projeto
                 for row in readCSV:
-                    if(row[3] != "") and (row[3] != "license_expression") and (row[0].count('/') == 2):
+
+                    # Busca licença em todo o projeto
+                    if(row[3] != "") and (row[3] != "license_expression"):
+                    # Busca licença na raiz do projeto
+                    # if(row[3] != "") and (row[3] != "license_expression") and (row[0].count('/') == 2):
+                    
                         # Se for encontrada um licença, ela é adicionada a lista
                         license.append(row[3])
         # Testa se a lista não é vazia
