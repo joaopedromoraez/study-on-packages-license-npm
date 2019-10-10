@@ -49,7 +49,8 @@ def licencaDuplicada(file):
     except IOError:
         print ('\033[1;33m' + file + ' : Arquivo não encontrado!' + '\033[0;0m')
 
-os.chdir("summary-licenses-csv")
+
+os.chdir("./summary-licenses-csv")
 
 inicio = 0
 fim = 1553
