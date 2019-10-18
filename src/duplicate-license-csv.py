@@ -1,4 +1,4 @@
-# scancode-toolkit/src/licensedcode/data/licenses/ -> onde os textos das licenças são encontrados
+# https://github.com/nexB/scancode-toolkit/tree/develop/src/licensedcode/data/licenses -> onde os textos das licenças são encontrados
 import os
 import csv
 import json
@@ -16,7 +16,7 @@ def licencaDuplicada(file):
         for line in temp:
             readCSV.append(line)
         #  Cria uma lista para armazenar as licenças encontradas
-        license = []
+        licenseAll = []
         #  Cria uma lista para armazenar as licenças encontradas na raiz do projeto
         licenseOnRoot = []
         #  Cria uma lista para armazenar as licenças encontradas fora da raiz do projeto
@@ -35,7 +35,7 @@ def licencaDuplicada(file):
                     # if(row[3] != "") and (row[3] != "license_expression") and (row[0].count('/') == 2):
 
                     # Se for encontrada um licença, ela é adicionada a lista
-                    license.append(row[4])
+                    licenseAll.append(row[4])
 
                     if (row[0].count('/') == 2):
                         licenseOnRoot.append(row[4])
@@ -49,31 +49,65 @@ def licencaDuplicada(file):
                     # Se for encontrada um licença SPDX, ela é adicionada a lista
                     licenseSPDX.append(row[14])
 
-
+    # Testa se a licença ta duplicada no projeto
     # Testa se a lista não é vazia
-    if license == []:
+    if licenseAll == []:
         # Se for vazia adiciona verdadeiro para a varial de teste
-        testar = True
+        duplicadoGeral = True
     else:
         # Cria variavel que denota se existe mais de uma licença na lista
-        testar = False
+        duplicadoGeral = False
         #  Cria uma variavel que armazena o primeiro valor da lista de licenças
-        swap = license[0]
+        swap = licenseAll[0]
         # Loop para checar se existe mais de uma licença na lista
-        for pizza in license:
+        for pizza in licenseAll:
             if (pizza != swap):
-                testar = True
+                duplicadoGeral = True
                 break
     
+    # Testa se a licença ta duplicada na raiz do projeto
+    # Testa se a lista não é vazia
+    if licenseOnRoot == []:
+        # Se for vazia adiciona verdadeiro para a varial de teste
+        duplicadoRoot = True
+    else:
+        # Cria variavel que denota se existe mais de uma licença na lista
+        duplicadoRoot = False
+        #  Cria uma variavel que armazena o primeiro valor da lista de licenças
+        swap = licenseOnRoot[0]
+        # Loop para checar se existe mais de uma licença na lista
+        for pizza in licenseOnRoot:
+            if (pizza != swap):
+                duplicadoRoot = True
+                break
+
     # Retorna o resultado da função
-    return {"nome": readCSV[1][0],"duplicado":testar, "quantidade_total":len(set(license)), "licenca_na_raiz":len(set(licenseOnRoot)), "licenca_SPDX":len(set(licenseSPDX)), "license_score":licenseScore, "license_score_in_root":licenseScoreRoot}
+    return {
+        "nome": readCSV[1][0],
+        "duplicado_geral":duplicadoGeral,
+        "duplicado_raiz":duplicadoRoot,
+        "quantidade_geral":len(set(licenseAll)),
+        "quantidade_raiz":len(set(licenseOnRoot)),
+        "licenca_SPDX":len(set(licenseSPDX)),
+        "license_score_geral":licenseScore,
+        "license_score_raiz":licenseScoreRoot
+        }
 
 # Com licença duplicada [node]
 # print(licencaDuplicada('./summary-licenses-csv/license14.csv'))
 
 
-with open('dados_teste.csv', mode='w', encoding='utf-8', newline='') as csv_file:
-    fieldnames = ['nome','duplicado', 'quantidade_total', 'licenca_na_raiz', 'licenca_SPDX','license_score','license_score_in_root']
+with open('analysis_summary.csv', mode='w', encoding='utf-8', newline='') as csv_file:
+    fieldnames = [
+        'nome',
+        'duplicado_geral',
+        'duplicado_raiz',
+        'quantidade_geral',
+        'quantidade_raiz',
+        'licenca_SPDX',
+        'license_score_geral',
+        'license_score_raiz'
+        ]
     writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
     writer.writeheader()
