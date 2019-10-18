@@ -1,3 +1,4 @@
+# scancode-toolkit/src/licensedcode/data/licenses/ -> onde os textos das licenças são encontrados
 import os
 import csv
 import json
@@ -16,17 +17,39 @@ def licencaDuplicada(file):
             readCSV.append(line)
         #  Cria uma lista para armazenar as licenças encontradas
         license = []
+        #  Cria uma lista para armazenar as licenças encontradas na raiz do projeto
+        licenseOnRoot = []
+        #  Cria uma lista para armazenar as licenças encontradas fora da raiz do projeto
+        licenseSPDX = []
+        #  Cria uma variavel para armazenar o score da licenças encontradas
+        licenseScore = 100.00
+        licenseScoreRoot = 100.00
+
         if (readCSV != []) and (len(readCSV[0]) > 3):
             # Vare a lista e buscar as licenças listadas na coluna 'license_expression'e que estejam na raiz do projeto
             for row in readCSV:
 
                 # Busca licença em todo o projeto
-                if(row[3] != "") and (row[3] != "license_expression"):
+                if(row[4] != "") and (row[4] != "license__key"):
                     # Busca licença na raiz do projeto
                     # if(row[3] != "") and (row[3] != "license_expression") and (row[0].count('/') == 2):
 
                     # Se for encontrada um licença, ela é adicionada a lista
-                    license.append(row[3])
+                    license.append(row[4])
+
+                    if (row[0].count('/') == 2):
+                        licenseOnRoot.append(row[4])
+                        if (float(row[5]) < licenseScore):
+                            licenseScoreRoot = float(row[5])
+                    
+                    if (float(row[5]) < licenseScore):
+                        licenseScore = float(row[5])
+                    
+                if(row[14] != "") and (row[14] != "license__spdx_license_key"):
+                    # Se for encontrada um licença SPDX, ela é adicionada a lista
+                    licenseSPDX.append(row[14])
+
+
     # Testa se a lista não é vazia
     if license == []:
         # Se for vazia adiciona verdadeiro para a varial de teste
@@ -43,14 +66,14 @@ def licencaDuplicada(file):
                 break
     
     # Retorna o resultado da função
-    return {"nome": readCSV[1][0],"duplicado":testar, "quantidade":len(set(license))}
+    return {"nome": readCSV[1][0],"duplicado":testar, "quantidade_total":len(set(license)), "licenca_na_raiz":len(set(licenseOnRoot)), "licenca_SPDX":len(set(licenseSPDX)), "license_score":licenseScore, "license_score_in_root":licenseScoreRoot}
 
 # Com licença duplicada [node]
 # print(licencaDuplicada('./summary-licenses-csv/license14.csv'))
 
 
 with open('dados_teste.csv', mode='w', encoding='utf-8', newline='') as csv_file:
-    fieldnames = ['nome','duplicado', 'quantidade']
+    fieldnames = ['nome','duplicado', 'quantidade_total', 'licenca_na_raiz', 'licenca_SPDX','license_score','license_score_in_root']
     writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
     writer.writeheader()
