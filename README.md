@@ -15,7 +15,18 @@ make
 ```bash
 make clone
 ```
+
 ## Scan Code
 ```bash
 make scancode
+```
+
+## Separate Projects with more than one license
+```bash
+make duplicate
+```
+
+## Resume CSV
+```bash
+make resumeCSV
 ```

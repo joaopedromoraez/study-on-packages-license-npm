@@ -25,3 +25,6 @@ scancode:
 
 duplicate:
 	@python3 src/duplicate-license.py
+
+resumeCSV:
+	@python3 src/duplicate-license-csv.py
