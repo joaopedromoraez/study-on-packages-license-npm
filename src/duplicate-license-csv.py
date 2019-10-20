@@ -4,6 +4,10 @@ import csv
 import json
 import pandas as pd
 
+# Busca numa string a incidêcia de uma palavra 
+def wordSearch(string, stringParameter):
+    return string.lower().count(stringParameter) != 0
+
 # Função que retorna se um repositorio tem mais de uma licença
 def licencaDuplicada(file):
     # Abre o arquivo .csv definidor
@@ -27,7 +31,14 @@ def licencaDuplicada(file):
         #  Cria Variavel para verificar se o projeto tem licenças incompativeis
         compatibleLicenses = True
         compatibleLicensesRoot = True
-
+        #  Cria variavel para salvar licenças encontradas em arquivos readme
+        licenseReadme = []
+        #  Cria variavel para salvar licenças encontradas em arquivos package.json
+        licensePackage = []
+        #  Cria variavel para salvar licenças encontradas em arquivos license
+        licenseOnLicense = []
+        # Variavel para para salvar se os projetos tem diferenças nas licenças listadas no readme, package.json e license
+        # description = True
         if (readCSV != []) and (len(readCSV[0]) > 3):
             # Vare a lista e buscar as licenças listadas na coluna 'license_expression'e que estejam na raiz do projeto
             for row in readCSV:
@@ -55,11 +66,36 @@ def licencaDuplicada(file):
                     # Testa se a licença é permissiva em licenças encontradas na raiz do projeto 
                     if (row[8] != "Permissive") and (row[0].count('/') == 2):
                         compatibleLicensesRoot = False
+
+                    # Salva as licenças encontradas em arquivos readme
+                    if (wordSearch(row[0],'readme')) and (row[0].count('/') == 2):
+                        licenseReadme.append(row[4])
+
+                    # Salva as licenças encontradas em arquivos package.json
+                    if (wordSearch(row[0],'package.json')) and (row[0].count('/') == 2):
+                        licensePackage.append(row[4])
+
+                    # Salva as licenças encontradas em arquivos de license
+                    if (wordSearch(row[0],'license')) and (row[0].count('/') == 2):
+                        licenseOnLicense.append(row[4])
                     
                 if(row[14] != "") and (row[14] != "license__spdx_license_key"):
                     # Se for encontrada um licença SPDX, ela é adicionada a lista
                     licenseSPDX.append(row[14])
 
+    # if (licenseReadme == []):
+    #     description = (licensePackage.sort() == licenseOnLicense.sort())
+    # elif (licenseOnLicense == []):
+    #     description = (licensePackage.sort() == licenseReadme.sort())
+    # elif (licensePackage == []):
+    #     description = True
+    # else:
+    #     description = (licensePackage.sort() == licenseReadme.sort() == licenseOnLicense.sort())
+
+    # if (licensePackage != []):
+    #     description =  ( licensePackage.sort() == (licenseOnLicense + licenseReadme).sort() ) 
+
+    
     # Testa se a licença ta duplicada no projeto
     # Testa se a lista não é vazia
     if licenseAll == []:
@@ -103,7 +139,11 @@ def licencaDuplicada(file):
         "license_score_geral":licenseScore,
         "license_score_raiz":licenseScoreRoot,
         "licencas_compativeis_geral":compatibleLicenses,
-        "licencas_compativeis_raiz":compatibleLicensesRoot
+        "licencas_compativeis_raiz":compatibleLicensesRoot,
+        "licencas_readme":len(set(licenseReadme)),
+        "licencas_packageJson":len(set(licensePackage)),
+        "licencas_license":len(set(licenseOnLicense)),
+        # "compatibilidade_descrições":description
         }
 
 # Com licença duplicada [node]
@@ -121,7 +161,11 @@ with open('analysis_summary.csv', mode='w', encoding='utf-8', newline='') as csv
         'license_score_geral',
         'license_score_raiz',
         'licencas_compativeis_geral',
-        'licencas_compativeis_raiz'
+        'licencas_compativeis_raiz',
+        'licencas_readme',
+        'licencas_packageJson',
+        'licencas_license',
+        # 'compatibilidade_descrições'
         ]
     writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
