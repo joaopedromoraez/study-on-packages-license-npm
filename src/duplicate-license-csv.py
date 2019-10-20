@@ -24,6 +24,9 @@ def licencaDuplicada(file):
         #  Cria uma variavel para armazenar o score da licenças encontradas
         licenseScore = 100.00
         licenseScoreRoot = 100.00
+        #  Cria Variavel para verificar se o projeto tem licenças incompativeis
+        compatibleLicenses = True
+        compatibleLicensesRoot = True
 
         if (readCSV != []) and (len(readCSV[0]) > 3):
             # Vare a lista e buscar as licenças listadas na coluna 'license_expression'e que estejam na raiz do projeto
@@ -44,6 +47,14 @@ def licencaDuplicada(file):
                     
                     if (float(row[5]) < licenseScore):
                         licenseScore = float(row[5])
+
+                    # Testa se a licença é permissiva no projeto inteiro
+                    if (row[8] != "Permissive"):
+                        compatibleLicenses = False
+
+                    # Testa se a licença é permissiva em licenças encontradas na raiz do projeto 
+                    if (row[8] != "Permissive") and (row[0].count('/') == 2):
+                        compatibleLicensesRoot = False
                     
                 if(row[14] != "") and (row[14] != "license__spdx_license_key"):
                     # Se for encontrada um licença SPDX, ela é adicionada a lista
@@ -90,7 +101,9 @@ def licencaDuplicada(file):
         "quantidade_raiz":len(set(licenseOnRoot)),
         "licenca_SPDX":len(set(licenseSPDX)),
         "license_score_geral":licenseScore,
-        "license_score_raiz":licenseScoreRoot
+        "license_score_raiz":licenseScoreRoot,
+        "licencas_compativeis_geral":compatibleLicenses,
+        "licencas_compativeis_raiz":compatibleLicensesRoot
         }
 
 # Com licença duplicada [node]
@@ -106,7 +119,9 @@ with open('analysis_summary.csv', mode='w', encoding='utf-8', newline='') as csv
         'quantidade_raiz',
         'licenca_SPDX',
         'license_score_geral',
-        'license_score_raiz'
+        'license_score_raiz',
+        'licencas_compativeis_geral',
+        'licencas_compativeis_raiz'
         ]
     writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
