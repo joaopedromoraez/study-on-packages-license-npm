@@ -28,3 +28,6 @@ duplicate:
 
 resumeCSV:
 	@python3 src/duplicate-license-csv.py
+
+graphics:
+	@python3 src/statistical-graphs.py
