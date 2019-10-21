@@ -7,6 +7,28 @@ import json
 import pandas as pd
 
 
+def autolabel(rects, ax):
+    # Get y-axis height to calculate label position from.
+    (y_bottom, y_top) = ax.get_ylim()
+    y_height = y_top - y_bottom
+
+    for rect in rects:
+        height = rect.get_height()
+
+        # Fraction of axis height taken up by this rectangle
+        p_height = (height / y_height)
+
+        # If we can fit the label above the column, do that;
+        # otherwise, put it inside the column.
+        if p_height > 0.95: # arbitrary; 95% looked good to me.
+            label_position = height - (y_height * 0.05)
+        else:
+            label_position = height + (y_height * 0.01)
+
+        ax.text(rect.get_x() + rect.get_width()/2., label_position,
+                '%d' % int(height),
+                ha='center', va='bottom')
+
 
 with open('./analysis_summary.csv') as csvfile:
     # Adiciona os valores a um objeto, onde cada item vai ser uma linha
@@ -20,10 +42,12 @@ with open('./analysis_summary.csv') as csvfile:
     x = []
 
     for row in readCSV:
-        # Busca licença em todo o projeto
-        if(row[3] != "quantidade_geral"):
-            x.append(int(row[3]))
+        if(row[4] != "quantidade_raiz"):
+            x.append(int(row[4]))
 
+    # for row in readCSV:
+    #     if(row[3] != "quantidade_geral"):
+    #         x.append(int(row[3]))
 
 
 # x = [11 , 5 , 2 , 0 , 9 , 9 , 1 , 5 , 1 , 3 ,3 , 3 , 7 , 4 , 12 , 8 , 5 , 2 , 6 , 1 ,11 , 1 , 2 , 4 , 2 , 1 , 3 , 9 , 0 , 10 ,3 , 3 , 1 , 5 , 18 , 4 , 22 , 8 , 3 , 0 ,8 , 9 , 2 , 3 , 12 , 1 , 3 , 1 , 7 , 5 ,14 , 7 , 7 , 28 , 1 , 3 , 2 , 11 , 13 , 2 ,0 , 1 , 6 , 12 , 15 , 0 , 6 , 7 , 19 , 1 ,1 , 9 , 1 , 5 , 3 , 17 , 10 , 15 , 43 , 2 ,6 , 1 , 13 , 13 , 19 , 10 , 9 , 20 , 19 , 2 ,27 , 5 , 20 , 5 , 10 , 8 , 2 , 3 , 1 , 1 ,4 , 3 , 6 , 13 , 10 , 9 , 1 , 1 , 3 , 9 ,9 , 4 , 0 , 3 , 6 , 3 , 27 , 3 , 18 , 4 ,6 , 0 , 2 , 2 , 8 , 4 , 5 , 1 , 4 , 18 ,1 , 0 , 16 , 20 , 2 , 2 , 2 , 12 , 28 , 0 ,7 , 3 , 18 , 12 , 3 , 2 , 8 , 3 , 19 , 12 ,5 , 4 , 6 , 0 , 5 , 0 , 3 , 7 , 0 , 8 ,8 , 12 , 3 , 7 , 1 , 3 , 1 , 3 , 2 , 5 ,4 , 9 , 4 , 12 , 4 , 11 , 9 , 2 , 0 , 5 ,8 , 24 , 1 , 5 , 12 , 9 , 17 , 728 , 12 , 6 ,4 , 3 , 5 , 7 , 4 , 4 , 4 , 11 , 3 , 8 ]
@@ -31,15 +55,15 @@ with open('./analysis_summary.csv') as csvfile:
 lista = sorted(x)
 
 # Remove outlier (Dados não usuais em conjuntos de dados)
-lista.remove(252)
-lista.remove(236)
-lista.remove(240)
-lista.remove(208)
-lista.remove(235)
-lista.remove(256)
+# lista.remove(208)
+# lista.remove(235)
+# lista.remove(236)
+# lista.remove(240)
+# lista.remove(252)
+# lista.remove(256)
 
-print(lista)
-print(len(lista)/4)
+# print(lista)
+# print(len(lista)/4)
 
 # Média é a soma dos valores de elementos dividido pela quantidade de elementos.
 media = st.mean(lista)
@@ -114,12 +138,14 @@ h = (max(lista)-min(lista))/k
 print('h = {:.2f}'.format(h))
 
 # Grafico de dispersão
-# plt.plot(parx,pary,'o')
-# plt.show()
+plt.plot(parx,pary,'o')
+plt.show()
 
 #HISTOGRAMA
-# plt.hist(lista, bins=k)
-# plt.show()
+plt.hist(lista, bins=k)
+plt.ylabel('Quantidade de licenças no projeto') #definindo nome do eixo X
+plt.xlabel('Classes de distribuição') #definindo nome do eixo Y
+plt.show()
 
 # BOX PLOT EXEMPLO
 # value1 = [82,76,24,40,67,62,75,78,71,32,98,89,78,67,72,82,87,66,56,52]
@@ -134,11 +160,8 @@ value3 = lista[quartil*2:quartil*3]
 value4 = lista[quartil*3:quartil*4]
 
 box_plot_data=[value1,value2,value3,value4]
-box=plt.boxplot(box_plot_data,vert=0,patch_artist=True,labels=['Q1','Q2','Q3','Q4'],
-            )
- 
+box=plt.boxplot(box_plot_data,vert=0,patch_artist=True,labels=['Q1','Q2','Q3','Q4'])
 colors = ['cyan', 'lightblue', 'lightgreen', 'tan']
 for patch, color in zip(box['boxes'], colors):
     patch.set_facecolor(color)
- 
 plt.show()
