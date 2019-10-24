@@ -2,61 +2,47 @@ import statistics as st
 import matplotlib.pyplot as plt
 from numpy import array
 import math
-import csv
-import json
 import pandas as pd
-from statisticalLib import lerCSV, statistics
+from statisticalLib import *
 
 
-x = lerCSV('./analysis_summary.csv', 'quantidade_raiz', 4 )
-
-lista = sorted(x)
-
-# Remove outlier (Dados não usuais em conjuntos de dados)
-# x.remove(valor)
-
-statistics(lista, 'Licenças encontradas na raiz')
-
-parx = []
-pary = []
-
-#usa x se for para ver a dispersão ou lista se quiser ver o grafico evoluindo (e ordenado)
-for a,index in enumerate(lista):
-        if a % 2 == 0:
-                parx.append(index)
-                #print(index)
-        else:
-                pary.append(index)
-                #print(index)
-
-
-# lista.remove(728)
-# pary.remove(728)
-parx.pop()
-
-# print(len(x))
-# print(len(parx))
-# print(len(pary))
-
-# Numero de classes
-k = round(1+3.3*math.log10(len(lista)))
-print('k = {:.2f}'.format(k))
-
-# Tamanho do intervalo de cada classe
-h = (max(lista)-min(lista))/k
-print('h = {:.2f}'.format(h))
-
-# Grafico de dispersão
-plt.plot(parx,pary,'o')
-plt.title('Dispersão')
-plt.show()
+dup_geral = lerCSV('./analysis_summary.csv', 'duplicado_geral', 1 )
+dup_raiz = lerCSV('./analysis_summary.csv', 'duplicado_raiz', 2 )
+qtd_geral = lerCSV('./analysis_summary.csv', 'quantidade_geral', 3 )
+qtd_raiz = lerCSV('./analysis_summary.csv', 'quantidade_raiz', 4 )
+spdx = lerCSV('./analysis_summary.csv', 'licenca_SPDX', 5 )
+comp_geral = lerCSV('./analysis_summary.csv', 'licencas_compativeis_geral', 8 )
+comp_raiz = lerCSV('./analysis_summary.csv', 'licencas_compativeis_raiz', 9 )
+locate_licenses = [
+        sum(lerCSV('./analysis_summary.csv', 'licencas_readme', 10)),
+        sum(lerCSV('./analysis_summary.csv', 'licencas_packageJson', 11)),
+        sum(lerCSV('./analysis_summary.csv', 'licencas_license', 12))
+        ]
 
 # HISTOGRAMA
-plt.hist(lista, bins=k)
+qtd_geral.remove(208)
+qtd_geral.remove(235)
+qtd_geral.remove(236)
+qtd_geral.remove(240)
+qtd_geral.remove(252)
+qtd_geral.remove(256)
+lista01 = list(filter(lambda a: a != 1 and a != 0, qtd_geral))
+k = round(1+3.3*math.log10(len(lista01)))
+plt.hist(lista01, bins=k)
 plt.ylabel('Quantidade de licenças no projeto') #definindo nome do eixo X
 plt.xlabel('Classes de distribuição') #definindo nome do eixo Y
 plt.show()
 
+# HISTOGRAMA
+lista02 = list(filter(lambda a: a != 1 and a != 0, qtd_raiz))
+k = round(1+3.3*math.log10(len(lista02)))
+plt.hist(lista02, bins=k)
+plt.ylabel('Quantidade de licenças no projeto') #definindo nome do eixo X
+plt.xlabel('Classes de distribuição') #definindo nome do eixo Y
+plt.show()
+
+
+'''
 # BOX PLOT EXEMPLO
 quartil = len(lista)//4
 
@@ -76,3 +62,48 @@ bp = ax.boxplot(data_to_plot)
 plt.show()
 # Save the figure
 # fig.savefig('fig1.png', bbox_inches='tight')
+'''
+
+# Grafico de pizza Projeto com mais de um licença - Geral
+sizes = dup_geral.count('True'), dup_geral.count('False')
+labels = 'Mais de uma licença', 'Uma licença'
+fig1, ax1 = plt.subplots()
+ax1.pie(sizes, labels = labels, autopct='%1.1f%%', shadow=False, startangle=90)
+ax1.axis('equal')
+plt.title('Proporção de projetos com mais de uma licença - Geral')
+plt.show()
+
+# Grafico de pizza Projeto com mais de um licença - Raiz
+sizes = dup_raiz.count('True'), dup_raiz.count('False')
+labels = 'Mais de uma licença', 'Uma licença'
+fig1, ax1 = plt.subplots()
+ax1.pie(sizes, labels = labels, autopct='%1.1f%%', shadow=False, startangle=90)
+ax1.axis('equal')
+plt.title('Proporção de projetos com mais de uma licença - Raiz')
+plt.show()
+
+# Compatibilidade de Licenças - Geral
+sizes = comp_geral.count('True'), comp_geral.count('False')
+labels = 'Compativeis', 'Não Compativeis'
+fig1, ax1 = plt.subplots()
+ax1.pie(sizes, labels = labels, autopct='%1.1f%%', shadow=False, startangle=90)
+ax1.axis('equal')
+plt.title('Compatibilidade de Licenças - Geral')
+plt.show()
+
+# Compatibilidade de Licenças - Raiz
+sizes = comp_raiz.count('True'), comp_raiz.count('False')
+labels = 'Compativeis', 'Não Compativeis'
+fig1, ax1 = plt.subplots()
+ax1.pie(sizes, labels = labels, autopct='%1.1f%%', shadow=False, startangle=90)
+ax1.axis('equal')
+plt.title('Compatibilidade de Licenças - Raiz')
+plt.show()
+
+# Onde as licenças são encontradas
+labels = 'Readme', 'Package.json', 'License'
+fig1, ax1 = plt.subplots()
+ax1.pie(locate_licenses, labels = labels, autopct='%1.1f%%', shadow=False, startangle=90)
+ax1.axis('equal')
+plt.title('Localização das licenças')
+plt.show()

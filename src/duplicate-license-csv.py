@@ -37,6 +37,8 @@ def licencaDuplicada(file):
         licensePackage = []
         #  Cria variavel para salvar licenças encontradas em arquivos license
         licenseOnLicense = []
+        #  Cria variavel para salvar licenças encontradas em arquivos copying
+        licenseOnCopying = []
         # Variavel para para salvar se os projetos tem diferenças nas licenças listadas no readme, package.json e license
         # description = True
         if (readCSV != []) and (len(readCSV[0]) > 3):
@@ -76,7 +78,7 @@ def licencaDuplicada(file):
                         licensePackage.append(row[4])
 
                     # Salva as licenças encontradas em arquivos de license
-                    if (wordSearch(row[0],'license')) and (row[0].count('/') == 2):
+                    if (wordSearch(row[0],'licen')) and (row[0].count('/') == 2):
                         licenseOnLicense.append(row[4])
                     
                 if(row[14] != "") and (row[14] != "license__spdx_license_key"):
@@ -142,8 +144,7 @@ def licencaDuplicada(file):
         "licencas_compativeis_raiz":compatibleLicensesRoot,
         "licencas_readme":len(set(licenseReadme)),
         "licencas_packageJson":len(set(licensePackage)),
-        "licencas_license":len(set(licenseOnLicense)),
-        # "compatibilidade_descrições":description
+        "licencas_license":len(set(licenseOnLicense))
         }
 
 # Com licença duplicada [node]
@@ -164,8 +165,7 @@ with open('analysis_summary.csv', mode='w', encoding='utf-8', newline='') as csv
         'licencas_compativeis_raiz',
         'licencas_readme',
         'licencas_packageJson',
-        'licencas_license',
-        # 'compatibilidade_descrições'
+        'licencas_license'
         ]
     writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
