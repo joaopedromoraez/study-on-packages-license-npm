@@ -29,17 +29,21 @@ qtd_geral.remove(256)
 lista01 = list(filter(lambda a: a != 1 and a != 0, qtd_geral))
 k = round(1+3.3*math.log10(len(lista01)))
 plt.hist(lista01, bins=k)
+plt.title('Distribuição de frequencia de qtd de licenças por projeto - geral')
 plt.ylabel('Quantidade de licenças no projeto') #definindo nome do eixo X
 plt.xlabel('Classes de distribuição') #definindo nome do eixo Y
-plt.show()
+plt.savefig('./graphs/hit_qtd_projeto.png', bbox_inches='tight')
+# plt.show()
 
 # HISTOGRAMA
 lista02 = list(filter(lambda a: a != 1 and a != 0, qtd_raiz))
 k = round(1+3.3*math.log10(len(lista02)))
 plt.hist(lista02, bins=k)
+plt.title('Distribuição de frequencia de qtd de licenças por projeto - raiz')
 plt.ylabel('Quantidade de licenças no projeto') #definindo nome do eixo X
 plt.xlabel('Classes de distribuição') #definindo nome do eixo Y
-plt.show()
+plt.savefig('./graphs/hit_qtd_raiz.png', bbox_inches='tight')
+# plt.show()
 
 
 '''
@@ -71,7 +75,8 @@ fig1, ax1 = plt.subplots()
 ax1.pie(sizes, labels = labels, autopct='%1.1f%%', shadow=False, startangle=90)
 ax1.axis('equal')
 plt.title('Proporção de projetos com mais de uma licença - Geral')
-plt.show()
+plt.savefig('./graphs/pizza_lic_geral.png', bbox_inches='tight')
+# plt.show()
 
 # Grafico de pizza Projeto com mais de um licença - Raiz
 sizes = dup_raiz.count('True'), dup_raiz.count('False')
@@ -80,7 +85,8 @@ fig1, ax1 = plt.subplots()
 ax1.pie(sizes, labels = labels, autopct='%1.1f%%', shadow=False, startangle=90)
 ax1.axis('equal')
 plt.title('Proporção de projetos com mais de uma licença - Raiz')
-plt.show()
+plt.savefig('./graphs/pizza_lic_raiz.png', bbox_inches='tight')
+# plt.show()
 
 # Compatibilidade de Licenças - Geral
 sizes = comp_geral.count('True'), comp_geral.count('False')
@@ -89,7 +95,8 @@ fig1, ax1 = plt.subplots()
 ax1.pie(sizes, labels = labels, autopct='%1.1f%%', shadow=False, startangle=90)
 ax1.axis('equal')
 plt.title('Compatibilidade de Licenças - Geral')
-plt.show()
+plt.savefig('./graphs/pizza_compatibilidade_geral.png', bbox_inches='tight')
+# plt.show()
 
 # Compatibilidade de Licenças - Raiz
 sizes = comp_raiz.count('True'), comp_raiz.count('False')
@@ -98,7 +105,8 @@ fig1, ax1 = plt.subplots()
 ax1.pie(sizes, labels = labels, autopct='%1.1f%%', shadow=False, startangle=90)
 ax1.axis('equal')
 plt.title('Compatibilidade de Licenças - Raiz')
-plt.show()
+plt.savefig('./graphs/pizza_compatibilidade_raiz.png', bbox_inches='tight')
+# plt.show()
 
 # Onde as licenças são encontradas
 labels = 'Readme', 'Package.json', 'License'
@@ -106,4 +114,5 @@ fig1, ax1 = plt.subplots()
 ax1.pie(locate_licenses, labels = labels, autopct='%1.1f%%', shadow=False, startangle=90)
 ax1.axis('equal')
 plt.title('Localização das licenças')
-plt.show()
+plt.savefig('./graphs/pizza_local_licencas.png', bbox_inches='tight')
+# plt.show()

@@ -1,7 +1,7 @@
 all: 
 	@mkdir repositories
 
-	@mkdir summary-licenses-csv summary-licenses-json summary-licenses-filter
+	@mkdir summary-licenses-csv summary-licenses-json summary-licenses-filter graphs
 
 	@wget -O src/Domains_of_5,000_GitHub_Repositories_-_Public_-_Domains.csv https://zenodo.org/record/804474/files/Domains%20of%205%2C000%20GitHub%20Repositories%20-%20Public%20-%20Domains.csv?download=1
 
