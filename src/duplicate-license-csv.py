@@ -23,6 +23,8 @@ def licencaDuplicada(file):
         licenseAll = []
         #  Cria uma lista para armazenar as licenças encontradas na raiz do projeto
         licenseOnRoot = []
+        # Cria uma lista para armazenar as licenças encontradas fora da raiz do projeto
+        licenseOutRoot = []
         #  Cria uma lista para armazenar as licenças encontradas fora da raiz do projeto
         licenseSPDX = []
         #  Cria uma variavel para armazenar o score da licenças encontradas
@@ -58,6 +60,9 @@ def licencaDuplicada(file):
                         if (float(row[5]) < licenseScore):
                             licenseScoreRoot = float(row[5])
                     
+                    if (row[0].count('/') != 2):
+                        licenseOutRoot.append(row[4])
+
                     if (float(row[5]) < licenseScore):
                         licenseScore = float(row[5])
 
@@ -144,7 +149,8 @@ def licencaDuplicada(file):
         "licencas_compativeis_raiz":compatibleLicensesRoot,
         "licencas_readme":len(set(licenseReadme)),
         "licencas_packageJson":len(set(licensePackage)),
-        "licencas_license":len(set(licenseOnLicense))
+        "licencas_license":len(set(licenseOnLicense)),
+        "licencas_fora_da_raiz":len(set(licenseOutRoot)) 
         }
 
 # Com licença duplicada [node]
@@ -165,7 +171,8 @@ with open('analysis_summary.csv', mode='w', encoding='utf-8', newline='') as csv
         'licencas_compativeis_raiz',
         'licencas_readme',
         'licencas_packageJson',
-        'licencas_license'
+        'licencas_license',
+        'licencas_fora_da_raiz'
         ]
     writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
