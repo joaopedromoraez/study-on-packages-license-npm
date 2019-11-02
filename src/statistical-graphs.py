@@ -5,37 +5,19 @@ import math
 import pandas as pd
 from statisticalLib import *
 
-#Define funções para gerar os graficos
-def pizza(valores, labels, titulo, arquivo):        
-        fig1, ax1 = plt.subplots()
-        ax1.pie(valores, labels = labels, autopct='%1.1f%%', shadow=False, startangle=90)
-        ax1.axis('equal')
-        plt.title(titulo)
-        plt.savefig(f'./graphs/{arquivo}.png', bbox_inches='tight')
-        plt.show()
-
-def histograma(valores, titulo, labelX, labelY, arquivo):
-        k = round(1+3.3*math.log10(len(valores)))
-        plt.hist(valores, rwidth=0.9, bins=k)
-        plt.title(titulo)
-        plt.xlabel(labelX)
-        plt.ylabel(labelY)
-        plt.grid(axis='y', alpha=0.9)
-        plt.savefig(f'./graphs/{arquivo}.png', bbox_inches='tight')
-        plt.show()
-
 # Define as listas de valores
-dup_geral = lerCSV('./analysis_summary.csv', 'duplicado_geral', 1 )
-dup_raiz = lerCSV('./analysis_summary.csv', 'duplicado_raiz', 2 )
-qtd_geral = lerCSV('./analysis_summary.csv', 'quantidade_geral', 3 )
-qtd_raiz = lerCSV('./analysis_summary.csv', 'quantidade_raiz', 4 )
-spdx = lerCSV('./analysis_summary.csv', 'licenca_SPDX', 5 )
-comp_geral = lerCSV('./analysis_summary.csv', 'licencas_compativeis_geral', 8 )
-comp_raiz = lerCSV('./analysis_summary.csv', 'licencas_compativeis_raiz', 9 )
+arquivoCSV = './analysis_summary.csv'
+dup_geral = lerCSV(arquivoCSV, 'duplicado_geral', 1 )
+dup_raiz = lerCSV(arquivoCSV, 'duplicado_raiz', 2 )
+qtd_geral = lerCSV(arquivoCSV, 'quantidade_geral', 3 )
+qtd_raiz = lerCSV(arquivoCSV, 'quantidade_raiz', 4 )
+spdx = lerCSV(arquivoCSV, 'licenca_SPDX', 5 )
+comp_geral = lerCSV(arquivoCSV, 'licencas_compativeis_geral', 8 )
+comp_raiz = lerCSV(arquivoCSV, 'licencas_compativeis_raiz', 9 )
 locate_licenses = [
-        sum(lerCSV('./analysis_summary.csv', 'licencas_readme', 10)),
-        sum(lerCSV('./analysis_summary.csv', 'licencas_packageJson', 11)),
-        sum(lerCSV('./analysis_summary.csv', 'licencas_license', 12))
+        sum(lerCSV(arquivoCSV, 'licencas_readme', 10)),
+        sum(lerCSV(arquivoCSV, 'licencas_packageJson', 11)),
+        sum(lerCSV(arquivoCSV, 'licencas_license', 12))
         ]
 
 # HISTOGRAMA
@@ -97,9 +79,10 @@ pizza(
         'pizza_compatibilidade_raiz'
 )
 
-# Onde as licenças são encontradas
-labels1 = ['Readme', 'Package.json', 'License']
-plt.bar(labels1, locate_licenses, color='green')
-plt.title("Localização das licenças por tipo de arquivo")
-plt.savefig('./graphs/barras_local_licencas.png', bbox_inches='tight')
-plt.show()
+# Arquivos onde as licenças são encontradas
+barras(
+        locate_licenses,
+        ['Readme', 'Package.json', 'License'],
+        'Localização das licenças por tipo de arquivo',
+        'barras_local_licencas'
+)

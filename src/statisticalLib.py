@@ -25,7 +25,6 @@ def lerCSV(arquivo, titulo_coluna, indice_coluna):
                 lista.append(row[indice_coluna])
         return sorted(lista)
 
-
 def statistics(x, name_lista):
     lista = sorted(x)
     # Média é a soma dos valores de elementos dividido pela quantidade de elementos.
@@ -87,3 +86,30 @@ def statistics(x, name_lista):
             self.q3 = Q3
 
     return objeto( media, mediana, moda, minimo, maximo, amplitude, desvio, varianca, coeficiente_var, coeficiente_ass, Q1, Q2, Q3 )
+
+#Define funções para gerar os graficos
+extension = 'svg'
+
+def pizza(valores, labels, titulo, arquivo):        
+        fig1, ax1 = plt.subplots()
+        ax1.pie(valores, labels = labels, autopct='%1.1f%%', shadow=False, startangle=90)
+        ax1.axis('equal')
+        plt.title(titulo)
+        plt.savefig(f'./graphs/{arquivo}.{extension}', bbox_inches='tight')
+        plt.show()
+
+def histograma(valores, titulo, labelX, labelY, arquivo):
+        k = round(1+3.3*math.log10(len(valores)))
+        plt.hist(valores, rwidth=0.9, bins=k)
+        plt.title(titulo)
+        plt.xlabel(labelX)
+        plt.ylabel(labelY)
+        plt.grid(axis='y', alpha=0.9)
+        plt.savefig(f'./graphs/{arquivo}.{extension}', bbox_inches='tight')
+        plt.show()
+
+def barras(valores, labels, titulo, arquivo):        
+        plt.bar(labels, valores, color='blue')
+        plt.title(titulo)
+        plt.savefig(f'./graphs/{arquivo}.{extension}', bbox_inches='tight')
+        plt.show()
