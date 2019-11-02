@@ -30,3 +30,8 @@ make duplicate
 ```bash
 make resumeCSV
 ```
+
+## Generate Statistical Graphs
+```bash
+make graphics
+```
