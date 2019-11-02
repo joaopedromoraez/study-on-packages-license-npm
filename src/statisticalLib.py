@@ -88,7 +88,7 @@ def statistics(x, name_lista):
     return objeto( media, mediana, moda, minimo, maximo, amplitude, desvio, varianca, coeficiente_var, coeficiente_ass, Q1, Q2, Q3 )
 
 #Define funções para gerar os graficos
-extension = 'svg'
+extension = 'eps'
 
 def pizza(valores, labels, titulo, arquivo):        
         fig1, ax1 = plt.subplots()

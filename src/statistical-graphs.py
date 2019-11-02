@@ -17,7 +17,8 @@ comp_raiz = lerCSV(arquivoCSV, 'licencas_compativeis_raiz', 9 )
 locate_licenses = [
         sum(lerCSV(arquivoCSV, 'licencas_readme', 10)),
         sum(lerCSV(arquivoCSV, 'licencas_packageJson', 11)),
-        sum(lerCSV(arquivoCSV, 'licencas_license', 12))
+        sum(lerCSV(arquivoCSV, 'licencas_license', 12)),
+        sum(lerCSV(arquivoCSV, 'licencas_outros_arquivos', 13))
         ]
 
 # HISTOGRAMA
@@ -82,7 +83,7 @@ pizza(
 # Arquivos onde as licenças são encontradas
 barras(
         locate_licenses,
-        ['Readme', 'Package.json', 'License'],
+        ['Readme', 'Package.json', 'License', 'Outros Arquivos'],
         'Localização das licenças por tipo de arquivo',
         'barras_local_licencas'
 )
