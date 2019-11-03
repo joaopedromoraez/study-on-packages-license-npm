@@ -89,6 +89,9 @@ def statistics(x, name_lista):
 
 #Define funções para gerar os graficos
 extension = 'eps'
+# Say, "the default sans-serif font is COMIC SANS"
+# plt.rcParams["font.family"] = "Times New Roman"
+plt.rc('font',family='Times New Roman')
 
 def pizza(valores, labels, titulo, arquivo):        
         fig1, ax1 = plt.subplots()
@@ -111,5 +114,11 @@ def histograma(valores, titulo, labelX, labelY, arquivo):
 def barras(valores, labels, titulo, arquivo):        
         plt.bar(labels, valores, color='blue')
         plt.title(titulo)
+        for x,y in zip(labels, valores):
+            plt.annotate(y, # this is the text
+                        (x,y), # this is the point to label
+                        textcoords="offset points", # how to position the text
+                        xytext=(0,2), # distance from text to points (x,y)
+                        ha='center') # horizontal alignment can be left, right or center
         plt.savefig(f'./graphs/{arquivo}.{extension}', bbox_inches='tight')
         plt.show()
