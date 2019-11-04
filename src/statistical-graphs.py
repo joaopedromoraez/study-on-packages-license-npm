@@ -21,27 +21,26 @@ locate_licenses = [
         sum(lerCSV(arquivoCSV, 'licencas_outros_arquivos', 13))
         ]
 
-# HISTOGRAMA
-qtd_geral.remove(208)
-qtd_geral.remove(235)
-qtd_geral.remove(236)
-qtd_geral.remove(240)
-qtd_geral.remove(252)
-qtd_geral.remove(256)
-lista01 = list(filter(lambda a: a != 1 and a != 0, qtd_geral))
+# Histograma distribuição de frequencia
+# das licencas encontradas no projeto geral
+for outlier in detect_outlier(qtd_geral): # remove outliers
+        qtd_geral.remove(outlier)
 
 histograma(
-        lista01,
+        qtd_geral,
         'Distribuição de frequencia de qtd de licenças por projeto - geral',
         'Classes de distribuição',
         'Quantidade de licenças no projeto',
         'hit_qtd_projeto'
 )
 
-# HISTOGRAMA
-lista02 = list(filter(lambda a: a != 1 and a != 0, qtd_raiz))
+# Histograma distribuição de frequencia
+# das licencas encontradas na rais do projeto
+for outlier in detect_outlier(qtd_raiz): # remove outliers
+        qtd_raiz.remove(outlier)
+
 histograma(
-        lista02,
+        qtd_raiz,
         'Distribuição de frequencia de qtd de licenças por projeto - raiz',
         'Classes de distribuição',
         'Quantidade de licenças no projeto',

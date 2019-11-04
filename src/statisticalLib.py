@@ -1,5 +1,6 @@
 import statistics as st
 import matplotlib.pyplot as plt
+import numpy as np
 from numpy import array
 import math
 import csv
@@ -122,3 +123,17 @@ def barras(valores, labels, titulo, arquivo):
                         ha='center') # horizontal alignment can be left, right or center
         plt.savefig(f'./graphs/{arquivo}.{extension}', bbox_inches='tight')
         plt.show()
+
+
+def detect_outlier(data_1):
+    outliers=[]    
+    threshold=3
+    mean_1 = np.mean(data_1)
+    std_1 =np.std(data_1)
+    
+    
+    for y in data_1:
+        z_score= (y - mean_1)/std_1 
+        if np.abs(z_score) > threshold:
+            outliers.append(y)
+    return outliers
