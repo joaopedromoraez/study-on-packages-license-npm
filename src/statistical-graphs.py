@@ -39,12 +39,13 @@ histograma(
 for outlier in detect_outlier(qtd_raiz): # remove outliers
         qtd_raiz.remove(outlier)
 
-histograma(
+histogramaSelectK(
         qtd_raiz,
         'Distribuição de frequencia de qtd de licenças por projeto - raiz',
         'Classes de distribuição',
         'Quantidade de licenças no projeto',
-        'hit_qtd_raiz'
+        'hit_qtd_raiz',
+        7
 )
 
 # Grafico de pizza Projeto com mais de um licença - Geral

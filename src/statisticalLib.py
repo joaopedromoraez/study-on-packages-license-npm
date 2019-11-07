@@ -112,6 +112,15 @@ def histograma(valores, titulo, labelX, labelY, arquivo):
         plt.savefig(f'./graphs/{arquivo}.{extension}', bbox_inches='tight')
         plt.show()
 
+def histogramaSelectK(valores, titulo, labelX, labelY, arquivo, k):
+        plt.hist(valores, rwidth=0.9, bins=k)
+        plt.title(titulo)
+        plt.xlabel(labelX)
+        plt.ylabel(labelY)
+        plt.grid(axis='y', alpha=0.9)
+        plt.savefig(f'./graphs/{arquivo}.{extension}', bbox_inches='tight')
+        plt.show()
+
 def barras(valores, labels, titulo, arquivo):        
         plt.bar(labels, valores, color='blue')
         plt.title(titulo)
