@@ -20,12 +20,20 @@ locate_licenses = [
         sum(lerCSV(arquivoCSV, 'licencas_license', 12)),
         sum(lerCSV(arquivoCSV, 'licencas_outros_arquivos', 13))
         ]
-
+# ESTATISTICAS GERAIS
+# Licenças conhecidas pela SPDX
+pizza(
+        [sum(spdx), (sum(qtd_geral) - sum(spdx))],
+        ['Reconhecidas', 'Não reconhecidas'],
+        'Licenças conhecidas pela SPDX',
+        'pizza_licencas_conhecidas'
+)
+statistics(qtd_geral, "Licenças por projeto com outlier")
 # Histograma distribuição de frequencia
 # das licencas encontradas no projeto geral
 for outlier in detect_outlier(qtd_geral): # remove outliers
         qtd_geral.remove(outlier)
-
+statistics(qtd_geral, "Licenças por projeto sem outlier")
 histograma(
         qtd_geral,
         'Distribuição de frequencia de qtd de licenças por projeto - geral',
