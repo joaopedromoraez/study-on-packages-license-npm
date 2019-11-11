@@ -17,34 +17,43 @@ comp_raiz = lerCSV(arquivoCSV, 'licencas_compativeis_raiz', 9 )
 locate_licenses = [
         sum(lerCSV(arquivoCSV, 'licencas_readme', 10)),
         sum(lerCSV(arquivoCSV, 'licencas_packageJson', 11)),
-        sum(lerCSV(arquivoCSV, 'licencas_license', 12))
+        sum(lerCSV(arquivoCSV, 'licencas_license', 12)),
+        sum(lerCSV(arquivoCSV, 'licencas_outros_arquivos', 13))
         ]
-
-# HISTOGRAMA
-qtd_geral.remove(208)
-qtd_geral.remove(235)
-qtd_geral.remove(236)
-qtd_geral.remove(240)
-qtd_geral.remove(252)
-qtd_geral.remove(256)
-lista01 = list(filter(lambda a: a != 1 and a != 0, qtd_geral))
-
+# ESTATISTICAS GERAIS
+# Licenças conhecidas pela SPDX
+pizza(
+        [sum(spdx), (sum(qtd_geral) - sum(spdx))],
+        ['Reconhecidas', 'Não reconhecidas'],
+        'Licenças conhecidas pela SPDX',
+        'pizza_licencas_conhecidas'
+)
+statistics(qtd_geral, "Licenças por projeto com outlier")
+# Histograma distribuição de frequencia
+# das licencas encontradas no projeto geral
+for outlier in detect_outlier(qtd_geral): # remove outliers
+        qtd_geral.remove(outlier)
+statistics(qtd_geral, "Licenças por projeto sem outlier")
 histograma(
-        lista01,
+        qtd_geral,
         'Distribuição de frequencia de qtd de licenças por projeto - geral',
         'Classes de distribuição',
         'Quantidade de licenças no projeto',
         'hit_qtd_projeto'
 )
 
-# HISTOGRAMA
-lista02 = list(filter(lambda a: a != 1 and a != 0, qtd_raiz))
-histograma(
-        lista02,
+# Histograma distribuição de frequencia
+# das licencas encontradas na rais do projeto
+for outlier in detect_outlier(qtd_raiz): # remove outliers
+        qtd_raiz.remove(outlier)
+
+histogramaSelectK(
+        qtd_raiz,
         'Distribuição de frequencia de qtd de licenças por projeto - raiz',
         'Classes de distribuição',
         'Quantidade de licenças no projeto',
-        'hit_qtd_raiz'
+        'hit_qtd_raiz',
+        7
 )
 
 # Grafico de pizza Projeto com mais de um licença - Geral
@@ -82,7 +91,7 @@ pizza(
 # Arquivos onde as licenças são encontradas
 barras(
         locate_licenses,
-        ['Readme', 'Package.json', 'License'],
+        ['Readme', 'Package.json', 'License', 'Outros Arquivos'],
         'Localização das licenças por tipo de arquivo',
         'barras_local_licencas'
 )

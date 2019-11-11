@@ -39,6 +39,8 @@ def licencaDuplicada(file):
         licensePackage = []
         #  Cria variavel para salvar licenças encontradas em arquivos license
         licenseOnLicense = []
+        #  Cria variavel para salvar licenças encontradas em arquivos license
+        licenseOnOther = []
         #  Cria variavel para salvar licenças encontradas em arquivos copying
         licenseOnCopying = []
         # Variavel para para salvar se os projetos tem diferenças nas licenças listadas no readme, package.json e license
@@ -85,6 +87,17 @@ def licencaDuplicada(file):
                     # Salva as licenças encontradas em arquivos de license
                     if (wordSearch(row[0],'licen')) and (row[0].count('/') == 2):
                         licenseOnLicense.append(row[4])
+
+                    filesLicences = [
+                        wordSearch(row[0],'readme'),
+                        wordSearch(row[0],'package.json'),
+                        wordSearch(row[0],'licen')
+                    ]
+
+                    # Salva as licenças encontradas em arquivos de license
+                    if (filesLicences.count(False) == 3) and (row[0].count('/') == 2):
+                        licenseOnOther.append(row[4])
+
                     
                 if(row[14] != "") and (row[14] != "license__spdx_license_key"):
                     # Se for encontrada um licença SPDX, ela é adicionada a lista
@@ -150,6 +163,7 @@ def licencaDuplicada(file):
         "licencas_readme":len(set(licenseReadme)),
         "licencas_packageJson":len(set(licensePackage)),
         "licencas_license":len(set(licenseOnLicense)),
+        "licencas_outros_arquivos":len(set(licenseOnOther)),
         "licencas_fora_da_raiz":len(set(licenseOutRoot)) 
         }
 
@@ -172,6 +186,7 @@ with open('analysis_summary.csv', mode='w', encoding='utf-8', newline='') as csv
         'licencas_readme',
         'licencas_packageJson',
         'licencas_license',
+        'licencas_outros_arquivos',
         'licencas_fora_da_raiz'
         ]
     writer = csv.DictWriter(csv_file, fieldnames=fieldnames)

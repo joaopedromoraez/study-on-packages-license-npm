@@ -1,5 +1,6 @@
 import statistics as st
 import matplotlib.pyplot as plt
+import numpy as np
 from numpy import array
 import math
 import csv
@@ -88,7 +89,10 @@ def statistics(x, name_lista):
     return objeto( media, mediana, moda, minimo, maximo, amplitude, desvio, varianca, coeficiente_var, coeficiente_ass, Q1, Q2, Q3 )
 
 #Define funções para gerar os graficos
-extension = 'svg'
+extension = 'eps'
+# Say, "the default sans-serif font is COMIC SANS"
+# plt.rcParams["font.family"] = "Times New Roman"
+plt.rc('font',family='Times New Roman')
 
 def pizza(valores, labels, titulo, arquivo):        
         fig1, ax1 = plt.subplots()
@@ -108,8 +112,37 @@ def histograma(valores, titulo, labelX, labelY, arquivo):
         plt.savefig(f'./graphs/{arquivo}.{extension}', bbox_inches='tight')
         plt.show()
 
+def histogramaSelectK(valores, titulo, labelX, labelY, arquivo, k):
+        plt.hist(valores, rwidth=0.9, bins=k)
+        plt.title(titulo)
+        plt.xlabel(labelX)
+        plt.ylabel(labelY)
+        plt.grid(axis='y', alpha=0.9)
+        plt.savefig(f'./graphs/{arquivo}.{extension}', bbox_inches='tight')
+        plt.show()
+
 def barras(valores, labels, titulo, arquivo):        
         plt.bar(labels, valores, color='blue')
         plt.title(titulo)
+        for x,y in zip(labels, valores):
+            plt.annotate(y, # this is the text
+                        (x,y), # this is the point to label
+                        textcoords="offset points", # how to position the text
+                        xytext=(0,2), # distance from text to points (x,y)
+                        ha='center') # horizontal alignment can be left, right or center
         plt.savefig(f'./graphs/{arquivo}.{extension}', bbox_inches='tight')
         plt.show()
+
+
+def detect_outlier(data_1):
+    outliers=[]    
+    threshold=3
+    mean_1 = np.mean(data_1)
+    std_1 =np.std(data_1)
+    
+    
+    for y in data_1:
+        z_score= (y - mean_1)/std_1 
+        if np.abs(z_score) > threshold:
+            outliers.append(y)
+    return outliers

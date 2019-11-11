@@ -9,3 +9,4 @@ Domains_of_5,000_GitHub_Repositories_-_Public_-_Domains.csv
 .vscode/
 analysis_summary.csv
 src/__pycache__
+*.csv#
