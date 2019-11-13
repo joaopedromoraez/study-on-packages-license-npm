@@ -1,8 +1,15 @@
 # https://github.com/nexB/scancode-toolkit/tree/develop/src/licensedcode/data/licenses -> onde os textos das licenças são encontrados
+import subprocess
 import os
 import csv
 import json
 import pandas as pd
+
+def getOutputShell(local):
+    path = local.replace('/[','').replace(']',' ').replace('/','').split(' ')
+    subprocess.getoutput("cloc /home/jp/Projects/study-on-packages-license-npm/repositories/\["+path[0]+"\]"+path[1]+" > resultado.txt")
+    resultado = subprocess.getoutput("cat /home/jp/Projects/study-on-packages-license-npm/resultado.txt | grep SUM | awk '{print$5}'")
+    return resultado
 
 # Busca numa string a incidêcia de uma palavra 
 def wordSearch(string, stringParameter):
@@ -45,6 +52,7 @@ def licencaDuplicada(file):
         licenseOnCopying = []
         # Variavel para para salvar se os projetos tem diferenças nas licenças listadas no readme, package.json e license
         # description = True
+        numberLines = getOutputShell(readCSV[1][0])
         if (readCSV != []) and (len(readCSV[0]) > 3):
             # Vare a lista e buscar as licenças listadas na coluna 'license_expression'e que estejam na raiz do projeto
             for row in readCSV:
@@ -164,7 +172,8 @@ def licencaDuplicada(file):
         "licencas_packageJson":len(set(licensePackage)),
         "licencas_license":len(set(licenseOnLicense)),
         "licencas_outros_arquivos":len(set(licenseOnOther)),
-        "licencas_fora_da_raiz":len(set(licenseOutRoot)) 
+        "licencas_fora_da_raiz":len(set(licenseOutRoot)),
+        "numero_linhas":numberLines
         }
 
 # Com licença duplicada [node]
@@ -187,7 +196,8 @@ with open('analysis_summary.csv', mode='w', encoding='utf-8', newline='') as csv
         'licencas_packageJson',
         'licencas_license',
         'licencas_outros_arquivos',
-        'licencas_fora_da_raiz'
+        'licencas_fora_da_raiz',
+        'numero_linhas'
         ]
     writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
