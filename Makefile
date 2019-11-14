@@ -35,3 +35,6 @@ resumeCSV:
 
 graphics:
 	@python3 src/statistical-graphs.py
+
+listAllLicenses:
+	@awk -F "," '$5 != "license__key" {print $5}' summary-licenses-csv/*.csv | awk 'NF>0' > listaDeLicenças.txt

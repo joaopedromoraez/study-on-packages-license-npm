@@ -7,8 +7,8 @@ import pandas as pd
 
 def getOutputShell(local):
     path = local.replace('/[','').replace(']',' ').replace('/','').split(' ')
-    subprocess.getoutput("cloc repositories/\["+path[0]+"\]"+path[1]+" > resultado.txt")
-    resultado = subprocess.getoutput("cat resultado.txt | grep SUM | awk '{print$5}'")
+    subprocess.getoutput("cloc repositories/\["+path[0]+"\]"+path[1]+" > .temp.txt")
+    resultado = subprocess.getoutput("cat .temp.txt | grep SUM | awk '{print$5}'")
     return resultado
 
 # Busca numa string a incidêcia de uma palavra 
