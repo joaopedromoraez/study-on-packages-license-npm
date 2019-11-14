@@ -28,6 +28,10 @@ pizza(
         'Licenças conhecidas pela SPDX',
         'pizza_licencas_conhecidas'
 )
+print('=====|Licenças conhecidas pela SPDX|=====')
+print('Reconhecidas = ',sum(spdx))
+print('Não reconhecidas = ',(sum(qtd_geral) - sum(spdx)))
+
 statistics(qtd_geral, "Licenças por projeto com outlier")
 # Histograma distribuição de frequencia
 # das licencas encontradas no projeto geral
@@ -63,6 +67,9 @@ pizza(
         'Proporção de projetos com mais de uma licença - Geral',
         'pizza_lic_geral'
 )
+print('=====|Proporção de projetos com mais de uma licença - Geral|=====')
+print('Compativeis = ',dup_geral.count("True"))
+print('Não Compativeis = ',dup_geral.count('False'))
 
 # Grafico de pizza Projeto com mais de um licença - Raiz
 pizza(
@@ -71,6 +78,9 @@ pizza(
         'Proporção de projetos com mais de uma licença - Raiz',
         'pizza_lic_raiz'
 )
+print('=====|Proporção de projetos com mais de uma licença - Raiz|=====')
+print('Compativeis = ',dup_raiz.count("True"))
+print('Não Compativeis = ',dup_raiz.count('False'))
 
 # Compatibilidade de Licenças - Geral
 pizza(
@@ -79,6 +89,9 @@ pizza(
         'Compatibilidade de Licenças - Geral',
         'pizza_compatibilidade_geral'
 )
+print('=====|Compatibilidade de Licenças - Geral|=====')
+print('Compativeis = ',comp_geral.count("True"))
+print('Não Compativeis = ',comp_geral.count('False'))
 
 # Compatibilidade de Licenças - Raiz
 pizza(
@@ -87,6 +100,9 @@ pizza(
         'Compatibilidade de Licenças - Raiz',
         'pizza_compatibilidade_raiz'
 )
+print('=====|Compatibilidade de Licenças - Raiz|=====')
+print('Compativeis = ',comp_raiz.count("True"))
+print('Não Compativeis = ',comp_raiz.count('False'))
 
 # Arquivos onde as licenças são encontradas
 barras(

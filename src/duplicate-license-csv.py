@@ -155,6 +155,12 @@ def licencaDuplicada(file):
             if (pizza != swap):
                 duplicadoRoot = True
                 break
+    
+    if (len(set(licenseAll)) == 1): 
+        compatibleLicenses = True
+
+    if (len(set(licenseOnRoot)) == 1): 
+        compatibleLicensesRoot = True
 
     # Retorna o resultado da função
     return {
