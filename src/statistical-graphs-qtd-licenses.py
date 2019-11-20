@@ -22,10 +22,14 @@ with open('./listaDeLicenças.txt') as csvfile:
         for qtd in resumo:
                 quantidade.append(licenses.count(qtd))
 
+        licencasResumo = ['mit','apache-2.0','bsd-new','facebook-patent-rights-2','generic-cla','Outras Licenças']
+        quantidadeResumo = [78704,52174,44671,10329,9312, 64167]
+        print(sum(quantidadeResumo))
         print(quantidade)
+        print(licenses)
    
         fig1, ax1 = plt.subplots()
-        ax1.pie(quantidade, labels = resumo, autopct='%1.1f%%', shadow=False, startangle=90)
+        ax1.pie(quantidadeResumo, labels = licencasResumo, autopct='%1.1f%%', shadow=False, startangle=90)
         ax1.axis('equal')
         plt.title('Licenças Com Maior Insidencia')
         plt.savefig('./graphs/licencas_comuns.png', bbox_inches='tight')
