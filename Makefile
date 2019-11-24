@@ -38,3 +38,6 @@ graphics:
 
 listAllLicenses:
 	@awk -F "," '$5 != "license__key" {print $5}' summary-licenses-csv/*.csv | awk 'NF>0' > listaDeLicenças.txt
+
+concatAllResults:
+	@cat summary-licenses-csv/license1.csv | grep Resource > concatAllResults.csv && cat summary-licenses-csv/license* | awk -F "," '$5 != "" {print}'| grep / >> concatAllResults.csv
