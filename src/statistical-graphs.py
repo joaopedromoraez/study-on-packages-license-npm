@@ -23,7 +23,7 @@ locate_licenses = [
 # ESTATISTICAS GERAIS
 # Licenças conhecidas pela SPDX
 pizza(
-        [sum(spdx), (sum(qtd_geral) - sum(spdx))],
+        [288, 146],
         ['Reconhecidas', 'Não reconhecidas'],
         'Licenças conhecidas pela SPDX',
         'pizza_licencas_conhecidas'
@@ -85,7 +85,7 @@ print('Não Compativeis = ',dup_raiz.count('False'))
 # Compatibilidade de Licenças - Geral
 pizza(
         [comp_geral.count('True'), comp_geral.count('False')],
-        ['Compativeis', 'Não Compativeis'],
+        ['Permissivas', 'Restritivas'],
         'Compatibilidade de Licenças - Geral',
         'pizza_compatibilidade_geral'
 )
@@ -96,7 +96,7 @@ print('Não Compativeis = ',comp_geral.count('False'))
 # Compatibilidade de Licenças - Raiz
 pizza(
         [comp_raiz.count('True'), comp_raiz.count('False')],
-        ['Compativeis', 'Não Compativeis'],
+        ['Permissivas', 'Restritivas'],
         'Compatibilidade de Licenças - Raiz',
         'pizza_compatibilidade_raiz'
 )
@@ -110,4 +110,11 @@ barras(
         ['Readme', 'Package.json', 'License', 'Outros Arquivos'],
         'Localização das licenças por tipo de arquivo',
         'barras_local_licencas'
+)
+
+pizza(
+        [248596,10618],
+        ['software','non-software'],
+        'Tipos de licenças encontradas',
+        'tipos_licenca'
 )
