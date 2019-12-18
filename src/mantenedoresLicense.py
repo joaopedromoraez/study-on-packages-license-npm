@@ -2,8 +2,6 @@
 import subprocess
 import os
 import csv
-import json
-import pandas as pd
 
 # Função que retorna se um repositorio tem mais de uma licença
 def licencaDuplicada(file, numero):
