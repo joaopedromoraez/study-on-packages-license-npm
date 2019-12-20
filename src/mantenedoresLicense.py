@@ -23,7 +23,7 @@ def licencaDuplicada(file, numero):
             for row in readCSV:
                 path = []
                 #Encontra a ocorrencia de arquivos com licenças
-                if(row[4] != "") and (row[4] != "license__key"):
+                if(row[4] != "") and (row[4] != "license__key") and (row[0].count('/') == 2):
                     path = row[0].replace('/[','').replace(']',' ').replace('/',' ',1).split(' ')
                     # subprocess.getoutput("git shortlog -sen "+path[2]+" >> ~/Desktop/testegitlog.txt")
                     subprocess.getoutput("git log --pretty=format:'%h;%an;%ae' "+path[2]+" >> ~/Desktop/arqTemp.txt")     
