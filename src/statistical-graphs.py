@@ -24,7 +24,7 @@ locate_licenses = [
 # Licenças conhecidas pela SPDX
 pizza(
         [288, 146],
-        ['Reconhecidas', 'Não reconhecidas'],
+        ['SPDX', 'non SPDX'],
         'Licenças conhecidas pela SPDX',
         'pizza_licencas_conhecidas'
 )
@@ -41,8 +41,8 @@ statistics(qtd_geral, "Licenças por projeto sem outlier")
 histograma(
         qtd_geral,
         'Distribuição de frequencia de qtd de licenças por projeto - geral',
-        'Classes de distribuição',
-        'Quantidade de licenças no projeto',
+        'Distribution Classes',
+        'Number of licenses in the project',
         'hit_qtd_projeto'
 )
 
@@ -54,8 +54,8 @@ for outlier in detect_outlier(qtd_raiz): # remove outliers
 histogramaSelectK(
         qtd_raiz,
         'Distribuição de frequencia de qtd de licenças por projeto - raiz',
-        'Classes de distribuição',
-        'Quantidade de licenças no projeto',
+        'Distribution Classes',
+        'Number of licenses in the project',
         'hit_qtd_raiz',
         7
 )
@@ -63,7 +63,7 @@ histogramaSelectK(
 # Grafico de pizza Projeto com mais de um licença - Geral
 pizza(
         [dup_geral.count('True'), dup_geral.count('False')],
-        ['Mais de uma licença', 'Uma licença'],
+        ['More than one license', 'One license'],
         'Proporção de projetos com mais de uma licença - Geral',
         'pizza_lic_geral'
 )
@@ -74,7 +74,7 @@ print('Não Compativeis = ',dup_geral.count('False'))
 # Grafico de pizza Projeto com mais de um licença - Raiz
 pizza(
         [dup_raiz.count('True'), dup_raiz.count('False')],
-        ['Mais de uma licença', 'Uma licença'],
+        ['More than one license', 'One license'],
         'Proporção de projetos com mais de uma licença - Raiz',
         'pizza_lic_raiz'
 )
@@ -85,7 +85,7 @@ print('Não Compativeis = ',dup_raiz.count('False'))
 # Compatibilidade de Licenças - Geral
 pizza(
         [comp_geral.count('True'), comp_geral.count('False')],
-        ['Permissivas', 'Restritivas'],
+        ['Permissive', 'Reciprocal'],
         'Compatibilidade de Licenças - Geral',
         'pizza_compatibilidade_geral'
 )
@@ -96,7 +96,7 @@ print('Não Compativeis = ',comp_geral.count('False'))
 # Compatibilidade de Licenças - Raiz
 pizza(
         [comp_raiz.count('True'), comp_raiz.count('False')],
-        ['Permissivas', 'Restritivas'],
+        ['Permissive', 'Reciprocal'],
         'Compatibilidade de Licenças - Raiz',
         'pizza_compatibilidade_raiz'
 )
@@ -107,7 +107,7 @@ print('Não Compativeis = ',comp_raiz.count('False'))
 # Arquivos onde as licenças são encontradas
 barras(
         locate_licenses,
-        ['Readme', 'Package.json', 'License', 'Outros Arquivos'],
+        ['Readme', 'Package.json', 'License', 'Other files'],
         'Localização das licenças por tipo de arquivo',
         'barras_local_licencas'
 )
@@ -115,6 +115,6 @@ barras(
 pizza(
         [248596,10618],
         ['software','non-software'],
-        'Tipos de licenças encontradas',
+        '~~',
         'tipos_licenca'
 )
