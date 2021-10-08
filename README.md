@@ -1,10 +1,12 @@
-# Study on packages license npm
+# Study on Packages License NPM
 
 ## Dataset
 The dataset can be found [here](https://zenodo.org/record/804474#.XTCGcnVKhhF).
 
 ## Dependencies
 + [Python3](https://www.python.org/downloads/)
++ [Matplotlib](https://matplotlib.org/)
++ [Pandas](https://pandas.pydata.org/)
 
 ## Environment Setup
 ```bash
@@ -21,7 +23,7 @@ make clone
 make scancode
 ```
 
-## Separate Projects with more than one license
+## Separate Projects with More Than One License
 ```bash
 make duplicate
 ```
